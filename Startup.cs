@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using IdentityApp.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IdentityApp {
 
@@ -26,6 +28,15 @@ namespace IdentityApp {
             services.AddHttpsRedirection(opts => {
                 opts.HttpsPort = 44350;
             });
+
+            services.AddDbContext<IdentityDbContext>(opts =>
+            {
+                opts.UseSqlServer(Configuration["ConnectionStrings:IdentityConnection"],
+                    opts => opts.MigrationsAssembly("IdentityApp")
+                );
+            });
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<IdentityDbContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
