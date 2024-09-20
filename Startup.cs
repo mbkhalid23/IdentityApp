@@ -40,8 +40,31 @@ namespace IdentityApp {
 
             services.AddScoped<IEmailSender, ConsoleEmailSender>();
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<IdentityUser>(opts =>
+                {
+                    opts.Password.RequiredLength = 8;
+                    opts.Password.RequireDigit = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.SignIn.RequireConfirmedAccount = true;
+                    opts.Lockout.MaxFailedAccessAttempts = 5;
+                })
                 .AddEntityFrameworkStores<IdentityDbContext>();
+
+            services.AddAuthentication()
+                .AddFacebook(opts =>
+                {
+                    opts.AppId = Configuration["Facebook:AppId"];
+                    opts.AppSecret = Configuration["Facebook:AppSecret"];
+                });
+
+            services.AddAuthentication()
+                .AddGoogle(opts =>
+                {
+                    opts.ClientId = Configuration["Google:ClientId"];
+                    opts.ClientSecret = Configuration["Google:ClientSecret"];
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
