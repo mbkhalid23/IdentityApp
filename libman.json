@@ -7,9 +7,12 @@
       "destination": "wwwroot/lib/twitter-bootstrap"
     },
     {
-      "provider": "cdnjs",
       "library": "qrcodejs@1.0.0",
       "destination": "wwwroot/lib/qrcodejs/"
+    },
+    {
+      "library": "font-awesome@5.15.1",
+      "destination": "wwwroot/lib/font-awesome/"
     }
   ]
 }
