@@ -40,7 +40,7 @@ namespace IdentityApp {
 
             services.AddScoped<IEmailSender, ConsoleEmailSender>();
 
-            services.AddDefaultIdentity<IdentityUser>(opts =>
+            services.AddIdentity<IdentityUser, IdentityRole>(opts =>
                 {
                     opts.Password.RequiredLength = 8;
                     opts.Password.RequireDigit = false;
