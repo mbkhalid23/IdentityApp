@@ -3,6 +3,9 @@
 @{
     ViewBag.Workflow = "Dashboard";
 }
+
+<div asp-validation-summary="All" class="text-danger m-2"></div>
+
 <table class="table table-sm table-striped table-bordered">
     <tbody>
     <tr><th>Users in store:</th><td>@Model.UsersCount</td></tr>
@@ -14,3 +17,7 @@
     </tr>
     </tbody>
 </table>
+
+<form method="post">
+    <button class="btn btn-secondary" type="submit">Seed Database</button>
+</form>
