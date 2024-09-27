@@ -1,10 +1,12 @@
 using IdentityApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 namespace IdentityApp.Pages.Identity
 {
+    [AllowAnonymous]
     public class UserPasswordRecoveryModel : UserPageModel
     {
         public UserPasswordRecoveryModel(UserManager<IdentityUser> usrMgr,
