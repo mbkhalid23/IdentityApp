@@ -65,6 +65,12 @@ namespace IdentityApp {
                     opts.ClientId = Configuration["Google:ClientId"];
                     opts.ClientSecret = Configuration["Google:ClientSecret"];
                 });
+
+            services.ConfigureApplicationCookie(opts => {
+                opts.LoginPath = "/Identity/SignIn";
+                opts.LogoutPath = "/Identity/SignOut";
+                opts.AccessDeniedPath = "/Identity/Forbidden";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
