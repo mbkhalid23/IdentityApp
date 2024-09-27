@@ -49,8 +49,11 @@ namespace IdentityApp {
                     opts.Password.RequireNonAlphanumeric = false;
                     opts.SignIn.RequireConfirmedAccount = true;
                     opts.Lockout.MaxFailedAccessAttempts = 5;
-                })
-                .AddEntityFrameworkStores<IdentityDbContext>();
+                }).AddEntityFrameworkStores<IdentityDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<TokenUrlEncoderService>();
+            services.AddScoped<IdentityEmailService>();
 
             services.AddAuthentication()
                 .AddFacebook(opts =>
