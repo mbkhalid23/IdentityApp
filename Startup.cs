@@ -49,8 +49,11 @@ namespace IdentityApp {
                     opts.Password.RequireNonAlphanumeric = false;
                     opts.SignIn.RequireConfirmedAccount = true;
                     opts.Lockout.MaxFailedAccessAttempts = 5;
-                })
-                .AddEntityFrameworkStores<IdentityDbContext>();
+                }).AddEntityFrameworkStores<IdentityDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<TokenUrlEncoderService>();
+            services.AddScoped<IdentityEmailService>();
 
             services.AddAuthentication()
                 .AddFacebook(opts =>
@@ -65,6 +68,12 @@ namespace IdentityApp {
                     opts.ClientId = Configuration["Google:ClientId"];
                     opts.ClientSecret = Configuration["Google:ClientSecret"];
                 });
+
+            services.ConfigureApplicationCookie(opts => {
+                opts.LoginPath = "/Identity/SignIn";
+                opts.LogoutPath = "/Identity/SignOut";
+                opts.AccessDeniedPath = "/Identity/Forbidden";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
