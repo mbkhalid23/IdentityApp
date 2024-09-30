@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -21,6 +22,9 @@ namespace IdentityApp.Pages.Identity.Admin
         public void OnGet()
         {
             UsersCount = UserManager.Users.Count();
+            UsersUnconfirmed = UserManager.Users.Count(u => !u.EmailConfirmed);
+            UsersLockedout = UserManager.Users
+                .Count(u => u.LockoutEnabled && u.LockoutEnd > DateTimeOffset.Now);
         }
 
         public async Task<IActionResult> OnPostAsync()

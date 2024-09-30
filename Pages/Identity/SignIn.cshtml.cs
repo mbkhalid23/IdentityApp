@@ -9,8 +9,13 @@ namespace IdentityApp.Pages.Identity
     [AllowAnonymous]
     public class SignInModel : UserPageModel
     {
-        public SignInModel(SignInManager<IdentityUser> signMgr) => SignInManager = signMgr;
+        public SignInModel(SignInManager<IdentityUser> signMgr, UserManager<IdentityUser> usrMgr)
+        {
+            SignInManager = signMgr;
+            UserManager = usrMgr;
+        } 
         public SignInManager<IdentityUser> SignInManager { get; set; }
+        public UserManager<IdentityUser> UserManager { get; set; }
         [Required]
         [EmailAddress]
         [BindProperty]
@@ -36,6 +41,11 @@ namespace IdentityApp.Pages.Identity
                 }
                 else if (result.IsNotAllowed)
                 {
+                    IdentityUser user = await UserManager.FindByEmailAsync(Email);
+                    if (user != null && !await UserManager.IsEmailConfirmedAsync(user))
+                    {
+                        return RedirectToPage("SignUpConfirm");
+                    }
                     TempData["message"] = "Sign In Not Allowed";
                 }
                 else if (result.RequiresTwoFactor)
