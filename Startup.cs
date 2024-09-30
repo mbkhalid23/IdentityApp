@@ -96,6 +96,8 @@ namespace IdentityApp {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
+
+            app.SeedUserStoreForDashboard();
         }
     }
 }
