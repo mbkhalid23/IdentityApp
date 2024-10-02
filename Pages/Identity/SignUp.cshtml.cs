@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using IdentityApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 
 namespace IdentityApp.Pages.Identity
 {
@@ -11,14 +13,17 @@ namespace IdentityApp.Pages.Identity
     public class SignUpModel : UserPageModel
     {
         public SignUpModel(UserManager<IdentityUser> usrMgr,
-            IdentityEmailService emailService)
+            IdentityEmailService emailService,
+            SignInManager<IdentityUser> signMgr)
         {
             UserManager = usrMgr;
             EmailService = emailService;
+            SignInManager = signMgr;
         }
 
         public UserManager<IdentityUser> UserManager { get; set; }
         public IdentityEmailService EmailService { get; set; }
+        public SignInManager<IdentityUser> SignInManager { get; set; }
 
         [BindProperty]
         [Required]
@@ -26,6 +31,13 @@ namespace IdentityApp.Pages.Identity
         public string Email { get; set; }
 
         [BindProperty] [Required] public string Password { get; set; }
+
+        public IEnumerable<AuthenticationScheme> ExternalSchemes { get; set; }
+        public async Task OnGetAsync()
+        {
+            ExternalSchemes = await
+                SignInManager.GetExternalAuthenticationSchemesAsync();
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
