@@ -32,6 +32,7 @@ namespace IdentityApp.Pages.Identity.Admin
             UsersUnconfirmed = UserManager.Users.Count(u => !u.EmailConfirmed);
             UsersLockedout = UserManager.Users
                 .Count(u => u.LockoutEnabled && u.LockoutEnd > DateTimeOffset.Now);
+            UsersTwoFactor = UserManager.Users.Count(u => u.TwoFactorEnabled);
         }
 
         public async Task<IActionResult> OnPostAsync()
