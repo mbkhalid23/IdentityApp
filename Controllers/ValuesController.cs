@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace IdentityApp.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("/api/data")]
-    [Authorize]
     public class ValuesController : ControllerBase
     {
         private ProductDbContext DbContext;
