@@ -79,6 +79,15 @@ namespace IdentityApp {
                 opts.AccessDeniedPath = "/Identity/Forbidden";
                 opts.Events.DisableRedirectionForApiClients();
             });
+
+            services.AddCors(opts => {
+                opts.AddDefaultPolicy(builder => {
+                    builder.WithOrigins("http://localhost:5100")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -90,6 +99,7 @@ namespace IdentityApp {
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
 
