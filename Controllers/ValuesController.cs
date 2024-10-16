@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 namespace IdentityApp.Controllers
 {
     [ApiController]
     [Route("/api/data")]
+    [Authorize]
     public class ValuesController : ControllerBase
     {
         private ProductDbContext DbContext;
